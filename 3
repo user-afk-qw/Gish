@@ -1,0 +1,34 @@
+% ==========================================
+% Часть 3: Общий график всех термов
+% ==========================================
+
+figure('Name', 'Итоговые функции принадлежности', 'Color', 'w');
+hold on; grid on; box on;
+
+% Интерполяция для гладких кривых
+U_fine = linspace(50, 90, 200);
+
+% Интерполяция степеней принадлежности
+mu_low_fine  = interp1(U, mu_low,  U_fine, 'pchip', 0);
+mu_mid_fine  = interp1(U, mu_mid,  U_fine, 'pchip', 0);
+mu_high_fine = interp1(U, mu_high, U_fine, 'pchip', 0);
+
+% Ограничение [0, 1]
+mu_low_fine  = max(0, min(1, mu_low_fine));
+mu_mid_fine  = max(0, min(1, mu_mid_fine));
+mu_high_fine = max(0, min(1, mu_high_fine));
+
+% Построение
+plot(U_fine, mu_low_fine,  'b-', 'LineWidth', 2.5);
+plot(U_fine, mu_mid_fine,  'g-', 'LineWidth', 2.5);
+plot(U_fine, mu_high_fine, 'r-', 'LineWidth', 2.5);
+
+xlabel('Вес, кг', 'FontSize', 13);
+ylabel('Степень принадлежности \mu', 'FontSize', 13);
+title('Функции принадлежности термов для переменной "вес мужчины"', ...
+      'FontSize', 14);
+legend({'Низкий', 'Средний', 'Высокий'}, 'Location', 'north', ...
+       'FontSize', 12);
+ylim([-0.05 1.1]);
+xlim([50 90]);
+set(gca, 'FontSize', 12);
